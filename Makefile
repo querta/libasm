@@ -1,25 +1,31 @@
-# /usr/local/bin/nasm -f macho64 hola.asm && gcc -arch x86_64 -o hola hola.o && ./hola
 # nasm -f macho64 ft_strlen.s && gcc main.c ft_strlen.o && ./a.out
 
 NAME = libasm.a
+HEADER = ./libasm.h
+FLAGS = -Wall -Wextra -Werror
 
-SRC =	ft_strlen.s
+SRCS =	ft_strlen.s ft_strcpy.s ft_strcmp.s
+OBJS = $(SRCS:.s=.o)
 
-OBJ = $(SRC:.s=.o)
+SRCC =	main.c 
+OBJC = $(SRCC:.c=.o)
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
-$(NAME): $(OBJ) 
-	ar rcs $(NAME) $(OBJ)
-	gcc -Wall -Wextra -Werror main.c $(NAME) -o libasm
+$(NAME): $(OBJS) $(OBJC) $(HEADER)
+	ar rcs $(NAME) $(OBJS)
+	gcc $(FLAGS) -I $(HEADER) $(OBJC) $(NAME) -o libasm
 
 %.o	: %.s
 	nasm -f macho64 $< -o $@
 
+%.o	: %.c
+	gcc -Wall -Wextra -Werror -c $< -o $(<:.c=.o)
+
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJC) $(OBJS)
 
 fclean: clean
 	rm -f $(NAME) libasm
