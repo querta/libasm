@@ -4,7 +4,7 @@ NAME = libasm.a
 HEADER = ./libasm.h
 FLAGS = -Wall -Wextra -Werror
 
-SRCS =	ft_strlen.s ft_strcpy.s ft_strcmp.s
+SRCS =	ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s ft_read.s ft_strdup.s
 OBJS = $(SRCS:.s=.o)
 
 SRCC =	main.c 
@@ -25,7 +25,7 @@ $(NAME): $(OBJS) $(OBJC) $(HEADER)
 	gcc -Wall -Wextra -Werror -c $< -o $(<:.c=.o)
 
 clean:
-	rm -f $(OBJC) $(OBJS)
+	rm -f $(OBJC) $(OBJS) file.txt
 
 fclean: clean
 	rm -f $(NAME) libasm
